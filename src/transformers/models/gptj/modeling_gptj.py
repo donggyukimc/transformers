@@ -881,8 +881,10 @@ class GPTJForCausalLM(GPTJPreTrainedModel):
         loss = None
         if labels is not None:
             # Shift so that tokens < n predict n
-            shift_logits = lm_logits[..., :-1, :].contiguous()
-            shift_labels = labels[..., 1:].contiguous()
+            # shift_logits = lm_logits[..., :-1, :].contiguous()
+            # shift_labels = labels[..., 1:].contiguous()
+            shift_logits = lm_logits
+            shift_labels = labels
             # Flatten the tokens
             loss_fct = CrossEntropyLoss()
             loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1))
