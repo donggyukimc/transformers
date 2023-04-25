@@ -684,8 +684,11 @@ class GPTNeoXForCausalLM(GPTNeoXPreTrainedModel):
             # move labels to correct device to enable model parallelism
             labels = labels.to(lm_logits.device)
             # we are doing next-token prediction; shift prediction scores and input ids by one
-            shift_logits = lm_logits[:, :-1, :].contiguous()
-            labels = labels[:, 1:].contiguous()
+            # shift_logits = lm_logits[:, :-1, :].contiguous()
+            # labels = labels[:, 1:].contiguous()
+            
+            shift_logits = lm_logits
+            
             loss_fct = CrossEntropyLoss()
             lm_loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)), labels.view(-1))
 
